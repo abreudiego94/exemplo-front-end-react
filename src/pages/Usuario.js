@@ -9,7 +9,9 @@ import {
   Row,
   Table
 } from 'reactstrap';
+import validator from 'validator';
 let axios = require('axios');
+
 
 export class Usuario extends Component {
 
@@ -78,8 +80,11 @@ export class Usuario extends Component {
       )
     })
   }
-  onNomeValidate() {
-    return true;
+  onEmailvalidate(e) {
+    return validator.isEmail(e)
+  }
+  onSenhaValidate(e) {
+    return validator.isLength(e, {min:6, max: undefined})
   }
 
   onFormSubmit = (e) => {
@@ -105,12 +110,12 @@ export class Usuario extends Component {
       <Container>
         <Form onSubmit={this.onFormSubmit}>
           <Input label="Email" id="email" ref="inputEmail" required={true} value={email}
-            onChange={this.onInputChange} errorMessage="O nome é obrigatório."
-            validator={this.onNomeValidate} />
+            onChange={this.onInputChange} errorMessage="O email é obrigatório."
+            validator={this.onEmailvalidate} />
 
           <Input label="Senha" type="password" id="senha" ref="inputSenha" required={true} value={senha}
-            onChange={this.onInputChange} errorMessage="A senha é obrigatório."
-            validator={this.onNomeValidate} />
+            onChange={this.onInputChange} errorMessage="A senha deve ser maior que 6"
+            validator={this.onSenhaValidate} />
 
           <Row>
             <Col sm={12} lg={12}>
