@@ -89,7 +89,9 @@ export class Usuario extends Component {
 
   onFormSubmit = (e) => {
     e.preventDefault();
-    this.cadastrarUsuario();
+    if(this.isFormValid(this.refs)){
+      this.cadastrarUsuario();
+    }
   }
   cadastrarUsuario = () => {
     const { senha, email } = this.state;
@@ -101,6 +103,16 @@ export class Usuario extends Component {
         this.buscarUsuarios();
       })
 
+  }
+  isFormValid = (refs) => {
+    const formValid = Object.keys(refs) 
+      .map(refName => refs[refName]) 
+      .filter(component => component instanceof Input)
+      .reduce((previousValid, input) => {
+        console.log(input);
+        return input.isValid() && previousValid;
+      }, true);
+    return formValid;
   }
 
   render() {
